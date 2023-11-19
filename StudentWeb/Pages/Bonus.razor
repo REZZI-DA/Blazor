@@ -1,0 +1,96 @@
+﻿@page "/bonus"
+@using StudentWeb.Data.service
+@using StudentWeb.Data.model
+@using StudentWeb
+@using BlazorBootstrap
+@inject ClubService clubService
+
+
+<h3>Bonus</h3>
+
+
+<div class="search-container">
+    <input type="number" class="search-input" @bind="searchYear" placeholder="Year Established" />
+    <button class="search-button" @onclick="FilterClubsByLeagues">Search</button>
+</div>
+
+<table>
+    <thead>
+        <tr>
+            <th>LeagueRank</th>
+            <th>League</th>
+            <th>YearEstablished</th>
+            <th>NumberOfLeagues</th>
+            <th>MembersByCapacity</th>
+            <th>MaxCapacity</th>
+            <th>CapacityByPatrons</th>
+        </tr>
+    </thead>
+    @if (allClubsByLeagues!=null)
+    {
+        <tbody>
+            @foreach (ClubsByLeague clubsByLeague in allClubsByLeagues)
+            {
+                <tr>
+                    <td>@clubsByLeague.LeagueRank</td>
+                    <td>@clubsByLeague.League</td>
+                    <td>@clubsByLeague.YearEstablished</td>
+                    <td>@clubsByLeague.NumberOfLeagues</td>
+                    <td>@clubsByLeague.MembersByCapacity</td>
+                    <td>@clubsByLeague.MaxCapacity</td>
+                    <td>@clubsByLeague.CapacityByPatrons</td>
+                </tr>
+            }
+        </tbody>
+    }
+</table>
+@if (isAlertVisible)
+{
+    <div>
+        <Alert  Color="AlertColor.Warning" Dismissable="true" ><Icon Name="IconName.ExclamationTriangleFill" class="me-2"></Icon>
+            Es konnten keine Daten mit dem angegebenen Gründungsjahr gefunden werden.
+        </Alert>
+    </div>
+}
+
+
+@code {
+    public bool isAlertVisible = false;
+    private List<ClubsByLeague>? allClubsByLeagues { get; set; }
+    private List<ClubsByLeague>? allClubsByLeaguesBase { get; set; }
+    private int? searchYear { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+        allClubsByLeagues = await clubService.GetClubsByLeagues();
+        allClubsByLeaguesBase = allClubsByLeagues;
+    }
+    private async Task FilterClubsByLeagues()
+    {
+        if (searchYear.HasValue)
+        {
+            allClubsByLeagues = allClubsByLeaguesBase?.Where(i => i.YearEstablished >= searchYear.Value).ToList();
+            // allClubsByLeagues = clubService.FilterClubsByLeagues(allClubsByLeaguesBase, searchYear.Value);
+            if (allClubsByLeagues?.Count == 0)
+            {
+                isAlertVisible = true;
+                await MyLongRunningTask();
+            }
+        }
+        else
+        {
+            allClubsByLeagues = allClubsByLeaguesBase;
+        }
+    }
+
+    private async Task MyLongRunningTask()
+    {
+        await Task.Delay(3000);
+        isAlertVisible = false;
+    }
+
+
+}
+
+

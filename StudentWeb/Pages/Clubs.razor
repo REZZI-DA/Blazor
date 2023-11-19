@@ -1,0 +1,40 @@
+﻿@page "/clubs"
+@using StudentWeb.Data.service
+@using StudentWeb.Data.model
+@inject ClubService clubService
+<h3>Clubs</h3>
+
+<table>
+    <thead>
+        <tr>
+            <th>ClubName</th>
+            <th>Established</th>
+            <th>StadiumCapacity</th>
+            <th>League</th>
+        </tr>
+    </thead>
+    @if (allClubs != null)
+    {
+        <tbody>
+            @foreach (Club club in allClubs)
+            {
+                <tr>
+                    <td>@club.ClubName</td>
+                    <td>@club.Established.ToShortDateString()</td>
+                    <td>@club.StadiumCapacity</td>
+                    <td>@club.League</td>
+                </tr>
+            }
+        </tbody>
+    }
+</table>
+@code {
+    private List<Club>? allClubs { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+        allClubs = await clubService.GetClubs();
+    }
+}
+

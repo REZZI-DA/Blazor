@@ -1,0 +1,40 @@
+﻿@page "/"
+
+
+
+<SurveyPrompt Title="Testaufgaben Entwicklung (Student – Web)" />
+
+
+<body>
+    <p>Hallo Herr Smyth,</p>
+
+    <p>ich habe die beiden Aufgaben erledigt:</p>
+
+    <ol>
+        <li>
+            <strong>Darstellung einer Tabelle:</strong>
+            <p>
+                Es kann irgendeine ASP. Net oder Blazor Technologie verwendet werden, z.B: Blazor Server, Asp.NET Core (MVC), ASP.Net Web App etc.).
+
+                Die Web Applikation soll eine Seite haben, in welcher der Inhalt der Datenbank Funktion <code>dbo.fnGet_Clubs()</code>  dargestellt wird. Die Funktion gibt eine Tabelle mit vier Spalten zurück (clubName, established etc.). Alle Spalten sollen in der Tabelle sichtbar sein.
+            </p>
+        </li>
+        <li>
+            <strong>Darstellung einer weiteren Tabelle mit Filter (Bonus):</strong>
+            <p>
+                Aufbauend auf 1. soll die Applikation um eine weitere Seite erweitert werden. Diese soll eine Tabelle mit dem Inhalt der Datenbank Funktion <code>dbo.fnGet_ClubsByLeague</code> enthalten.
+            
+                <br />
+                <code>EXEC sp_helptext 'fnGet_ClubsByLeague';</code>  <br />
+                <code>EXEC sp_describe_first_result_set N'SELECT * FROM dbo.fnGet_ClubsByLeague()';</code>
+
+            </p>
+        </li>
+    </ol>
+
+    <p>Vielen Dank für die Gelegenheit, diese Aufgaben umzusetzen. Bei weiteren Fragen stehe ich Ihnen gerne zur Verfügung.</p>
+
+    <p>Mit freundlichen Grüßen,<br>Alireza Dehghanazad</p>
+</body>
+
+
